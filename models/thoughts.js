@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const reactionSchema = require("./Reaction")
+const reactionSchema = require("./reaction")
 
 const thoughtSchema = new Schema({
   // text of the thought, is required, set min and max length constraints
