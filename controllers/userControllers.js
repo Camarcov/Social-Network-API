@@ -15,7 +15,7 @@ module.exports = {
     async getSingleUser(req, res) {
         try {
             // looks for a thought with the matching ID
-            const user = await User.findById(req.params.UserId);
+            const user = await User.findById(req.params.userId);
 
             if (!user) {
                 return res.status(404).json({ message: 'No thought found, check ID' });
@@ -55,4 +55,21 @@ module.exports = {
         }
     },
 
+    async addFriend(req, res) {
+        try {
+            //find a user document by its id, adds the parameter to the user's friends array
+            const user = await User.findOneAndUpdate(
+                { _id: req.params.userId },
+                { $addToSet: { friends: req.params.friendId } },
+                { runValidators: true, new: true }
+            );
+
+            if (!user) {
+                res.status(404).json({ message: 'No thought found, check ID' })
+            }
+            res.json(user);
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    }
 }
