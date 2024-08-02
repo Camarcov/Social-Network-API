@@ -47,7 +47,7 @@ module.exports = {
             );
 
             if (!user) {
-                res.status(404).json({ message: 'No thought found, check ID' });
+                res.status(404).json({ message: 'No user found, check ID' });
             }
             res.json(user);
         } catch (err) {
@@ -65,11 +65,25 @@ module.exports = {
             );
 
             if (!user) {
-                res.status(404).json({ message: 'No thought found, check ID' })
+                res.status(404).json({ message: 'No user found, check ID' })
             }
             res.json(user);
         } catch (err) {
             res.status(500).json(err);
         }
-    }
+    },
+
+    async deleteUser(req, res) {
+        try {
+            const user = await User.findOneAndDelete({ _id: req.params.userId });
+
+            if (!user) {
+                res.status(404).json({ message: 'No user found, check ID' });
+            }
+
+            res.json(user);
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    },
 }
