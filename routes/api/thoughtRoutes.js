@@ -5,3 +5,5 @@ router.route('/').get()
 // /api/thoughts/thought:id
 
 // /api/thoughts/thought:id/reactions
+
+module.exports = router;
