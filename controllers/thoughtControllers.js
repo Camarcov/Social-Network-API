@@ -69,9 +69,17 @@ module.exports = {
 
     async deleteThought(req, res) {
         try {
+            //finds the thought by id and deletes it
             const thought = await Thought.findOneAndDelete({ _id: req.params.thoughtId });
 
-            res.json(thought);
+            //pulls the thought from the users thought array
+            await User.findOneAndUpdate(
+                { thoughts: req.params.thoughtId },
+                { $pull: { thoughts: req.params.thoughtId } },
+                { runValidators: true, new: true }
+            );
+
+            res.status(200).json(thought);
         } catch (err) {
             res.status(500).json(err);
         }
