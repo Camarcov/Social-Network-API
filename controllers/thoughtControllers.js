@@ -1,4 +1,5 @@
 const Thought = require('../models/thoughts');
+const User = require('../models/user');
 
 module.exports = {
     async getAllThoughts(req, res) {
@@ -65,4 +66,16 @@ module.exports = {
             res.status(500).json(err);
         }
     },
+
+
+    async deleteThought(req, res) {
+        try {
+            const thought = await Thought.findOneAndDelete({ _id: req.params.thoughtId });
+
+            res.json(thought);
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    },
+
 }
