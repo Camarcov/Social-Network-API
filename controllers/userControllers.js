@@ -1,5 +1,5 @@
 const User = require('../models/user');
-
+const Thought = require('../models/thoughts');
 
 module.exports = {
     async getUsers(req, res) {
@@ -14,11 +14,11 @@ module.exports = {
 
     async getSingleUser(req, res) {
         try {
-            // looks for a thought with the matching ID
+            // looks for a user with the matching ID
             const user = await User.findById(req.params.userId);
 
             if (!user) {
-                return res.status(404).json({ message: 'No thought found, check ID' });
+                return res.status(404).json({ message: 'No user found, check ID' });
             }
 
             res.status(200).json(user);
@@ -80,14 +80,16 @@ module.exports = {
             if (!user) {
                 res.status(404).json({ message: 'No user found, check ID' });
             }
+            //deletes the thoughts in the user thoughts array
+            await Thought.deleteMany({ _id: { $in: user.thoughts } });
 
             res.json(user);
         } catch (err) {
             res.status(500).json(err);
         }
     },
-    
-    async removeFriend(req,res) {
+
+    async removeFriend(req, res) {
         try {
             const user = await User.findOneAndUpdate(
                 { _id: req.params.userId },
@@ -95,8 +97,8 @@ module.exports = {
                 { runValidators: true, new: true }
             );
 
-            if(!user) {
-                res.status(404).json({ message: 'No user found, check ID'})
+            if (!user) {
+                res.status(404).json({ message: 'No user found, check ID' })
             }
             res.json(user);
         } catch (err) {
