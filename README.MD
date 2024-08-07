@@ -3,7 +3,7 @@
 
 ## Description
 
-This is a social network API utilizing mongoDB 
+This is a social network API utilizing mongoDB. 
 I made this to practice using mongo with a practical backend 
   
 ## Table of Contents
